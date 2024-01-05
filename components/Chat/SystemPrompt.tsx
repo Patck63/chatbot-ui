@@ -7,7 +7,7 @@ import {
   useState,
 } from 'react';
 
-import { useTranslation } from 'next-i18next';
+
 
 import { DEFAULT_SYSTEM_PROMPT } from '@/utils/app/const';
 
@@ -28,7 +28,7 @@ export const SystemPrompt: FC<Props> = ({
   prompts,
   onChangePrompt,
 }) => {
-  const { t } = useTranslation('chat');
+  
 
   const [value, setValue] = useState<string>('');
   const [activePromptIndex, setActivePromptIndex] = useState(0);
@@ -50,10 +50,8 @@ export const SystemPrompt: FC<Props> = ({
 
     if (value.length > maxLength) {
       alert(
-        t(
-          `Prompt limit is {{maxLength}} characters. You have entered {{valueLength}} characters.`,
-          { maxLength, valueLength: value.length },
-        ),
+        
+          `Prompt limit is ${maxLength} characters. You have entered ${value.length} characters.`
       );
       return;
     }
@@ -194,7 +192,7 @@ export const SystemPrompt: FC<Props> = ({
   return (
     <div className="flex flex-col">
       <label className="mb-2 text-left text-neutral-700 dark:text-neutral-400">
-        {t('System Prompt')}
+        {'System Prompt'}
       </label>
       <textarea
         ref={textareaRef}
@@ -210,9 +208,9 @@ export const SystemPrompt: FC<Props> = ({
           }`,
         }}
         placeholder={
-          t(`Enter a prompt or type "/" to select a prompt...`) || ''
+          `Enter a prompt or type "/" to select a prompt...` || ''
         }
-        value={t(value) || ''}
+        value={value || ''}
         rows={1}
         onChange={handleChange}
         onKeyDown={handleKeyDown}

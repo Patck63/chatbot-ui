@@ -1,9 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { useQuery } from 'react-query';
 
-import { GetServerSideProps } from 'next';
-import { useTranslation } from 'next-i18next';
-import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+import { GetStaticProps } from 'next';
 import Head from 'next/head';
 
 import { useCreateReducer } from '@/hooks/useCreateReducer';
@@ -52,7 +50,6 @@ const Home = ({
   serverSidePluginKeysSet,
   defaultModelId,
 }: Props) => {
-  const { t } = useTranslation('chat');
   const { getModels } = useApiService();
   const { getModelsError } = useErrorService();
   const [initialRender, setInitialRender] = useState<boolean>(true);
@@ -183,7 +180,7 @@ const Home = ({
 
     const newConversation: Conversation = {
       id: uuidv4(),
-      name: t('New Conversation'),
+      name: 'New Conversation',
       messages: [],
       model: lastConversation?.model || {
         id: OpenAIModels[defaultModelId].id,
@@ -331,7 +328,7 @@ const Home = ({
         field: 'selectedConversation',
         value: {
           id: uuidv4(),
-          name: t('New Conversation'),
+          name: 'New Conversation',
           messages: [],
           model: OpenAIModels[defaultModelId],
           prompt: DEFAULT_SYSTEM_PROMPT,
@@ -395,7 +392,7 @@ const Home = ({
 };
 export default Home;
 
-export const getServerSideProps: GetServerSideProps = async ({ locale }) => {
+export const getStaticProps: GetStaticProps = async () => {
   const defaultModelId =
     (process.env.DEFAULT_MODEL &&
       Object.values(OpenAIModelID).includes(
@@ -417,15 +414,7 @@ export const getServerSideProps: GetServerSideProps = async ({ locale }) => {
     props: {
       serverSideApiKeyIsSet: !!process.env.OPENAI_API_KEY,
       defaultModelId,
-      serverSidePluginKeysSet,
-      ...(await serverSideTranslations(locale ?? 'en', [
-        'common',
-        'chat',
-        'sidebar',
-        'markdown',
-        'promptbar',
-        'settings',
-      ])),
+      serverSidePluginKeysSet
     },
   };
 };
