@@ -88,13 +88,22 @@ const Home = ({
     { enabled: true, refetchOnMount: false },
   );
 
-  useEffect(() => {
-    if (data) dispatch({ field: 'models', value: data });
-  }, [data, dispatch]);
+  // useEffect(() => {
+  //   if (data) dispatch({ field: 'models', value: data });
+  //   console.log('data', data);
+  // }, [data, dispatch]);
 
   useEffect(() => {
-    dispatch({ field: 'modelError', value: getModelsError(error) });
-  }, [dispatch, error, getModelsError]);
+    dispatch({ field: 'models', value: {
+      "id": "gpt-4",
+      "name": "GPT-4"
+  } });
+  }, [apiKey, dispatch]);
+
+
+  // useEffect(() => {
+  //   dispatch({ field: 'modelError', value: getModelsError(error) });
+  // }, [dispatch, error, getModelsError]);
 
   // FETCH MODELS ----------------------------------------------
 

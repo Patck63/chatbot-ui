@@ -17,6 +17,7 @@ export const ModelSelect = () => {
   } = useContext(HomeContext);
 
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    console.log("models", models);
     selectedConversation &&
       handleUpdateConversation(selectedConversation, {
         key: 'model',
