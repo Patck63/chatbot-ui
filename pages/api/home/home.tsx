@@ -88,17 +88,17 @@ const Home = ({
     { enabled: true, refetchOnMount: false },
   );
 
-  // useEffect(() => {
-  //   if (data) dispatch({ field: 'models', value: data });
-  //   console.log('data', data);
-  // }, [data, dispatch]);
-
   useEffect(() => {
-    dispatch({ field: 'models', value: {
-      "id": "gpt-4",
-      "name": "GPT-4"
-  } });
-  }, [apiKey, dispatch]);
+    if (data) dispatch({ field: 'models', value: data });
+    console.log('data', data);
+  }, [data, dispatch]);
+
+  // useEffect(() => {
+  //   dispatch({ field: 'models', value: {
+  //     "id": "gpt-4",
+  //     "name": "GPT-4"
+  // } });
+  // }, [apiKey, dispatch]);
 
 
   // useEffect(() => {
