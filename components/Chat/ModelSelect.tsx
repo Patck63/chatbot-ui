@@ -17,8 +17,8 @@ export const ModelSelect = () => {
   } = useContext(HomeContext);
 
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    console.log("handleChange selectedConversation", selectedConversation);
-    console.log("handleChange models", models);
+    // console.log("handleChange selectedConversation", selectedConversation);
+    // console.log("handleChange models", models);
     selectedConversation &&
       handleUpdateConversation(selectedConversation, {
         key: 'model',
@@ -26,7 +26,6 @@ export const ModelSelect = () => {
           (model) => model.id === e.target.value,
         ) as OpenAIModel,
       });
-    console.log("handleChange selectedConversation", selectedConversation);
   };
 
   return (

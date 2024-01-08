@@ -38,7 +38,7 @@ import HomeContext from './home.context';
 import { HomeInitialState, initialState } from './home.state';
 
 import { v4 as uuidv4 } from 'uuid';
-
+import { OpenAIModel } from '@/types/openai';
 interface Props {
   serverSideApiKeyIsSet: boolean;
   serverSidePluginKeysSet: boolean;
@@ -67,6 +67,7 @@ const Home = ({
       selectedConversation,
       prompts,
       temperature,
+      models,
     },
     dispatch,
   } = contextValue;
@@ -88,17 +89,24 @@ const Home = ({
     { enabled: true, refetchOnMount: false },
   );
 
-  useEffect(() => {
-    if (data) dispatch({ field: 'models', value: data });
-    console.log('data', data);
-  }, [data, dispatch]);
-
   // useEffect(() => {
-  //   dispatch({ field: 'models', value: {
-  //     "id": "gpt-4",
-  //     "name": "GPT-4"
-  // } });
-  // }, [apiKey, dispatch]);
+  //   if (data) dispatch({ field: 'models', value: data });
+  //   console.log('data', data);
+  // }, [data, dispatch]);
+
+  useEffect(() => {
+    dispatch({ field: 'models', value: [{
+      "id": "gpt-4",
+      "name": "GPT-4"
+    }]});
+    selectedConversation &&
+    handleUpdateConversation(selectedConversation, {
+      key: 'model',
+      value: models.find(
+        (model) => model.id === "gpt-4",
+      ) as OpenAIModel,
+    });
+  }, [apiKey, dispatch]);
 
 
   // useEffect(() => {
@@ -108,6 +116,7 @@ const Home = ({
   // FETCH MODELS ----------------------------------------------
 
   const handleSelectConversation = (conversation: Conversation) => {
+    console.log("handleSelectConversation");
     dispatch({
       field: 'selectedConversation',
       value: conversation,
@@ -185,6 +194,7 @@ const Home = ({
   // CONVERSATION OPERATIONS  --------------------------------------------
 
   const handleNewConversation = () => {
+    console.log("handleNewConversation")
     const lastConversation = conversations[conversations.length - 1];
 
     const newConversation: Conversation = {
@@ -217,6 +227,7 @@ const Home = ({
     conversation: Conversation,
     data: KeyValuePair,
   ) => {
+    console.log("handleUpdateConversation");
     const updatedConversation = {
       ...conversation,
       [data.key]: data.value,
