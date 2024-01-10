@@ -98,10 +98,18 @@ export const Chat = memo(({ stopConversationRef }: Props) => {
           prompt: updatedConversation.prompt,
           temperature: updatedConversation.temperature,
         };
+
         const endpoint = getEndpoint(plugin);
         let body;
         if (!plugin) {
-          body = JSON.stringify(chatBody);
+          // body = JSON.stringify(chatBody);
+          body = JSON.stringify({
+            input: {
+              input: updatedConversation.messages[updatedConversation.messages.length - 1].content,
+            },
+            config: {},
+            kwargs: {}
+          })
         } else {
           body = JSON.stringify({
             ...chatBody,
@@ -114,6 +122,7 @@ export const Chat = memo(({ stopConversationRef }: Props) => {
           });
         }
         const controller = new AbortController();
+
         const response = await fetch(endpoint, {
           method: 'POST',
           headers: {
@@ -122,6 +131,8 @@ export const Chat = memo(({ stopConversationRef }: Props) => {
           signal: controller.signal,
           body,
         });
+
+
         if (!response.ok) {
           homeDispatch({ field: 'loading', value: false });
           homeDispatch({ field: 'messageIsStreaming', value: false });
@@ -158,8 +169,42 @@ export const Chat = memo(({ stopConversationRef }: Props) => {
             }
             const { value, done: doneReading } = await reader.read();
             done = doneReading;
-            const chunkValue = decoder.decode(value);
-            text += chunkValue;
+            const chunkValue = decoder.decode(value, {stream: true});
+            // console.log("chunkValue\n\n", chunkValue)
+            // text += chunkValue;
+
+            // // Split the chunkValue into separate events
+            const events = chunkValue.split('\r\n\r\n');
+
+            for (const event of events) {
+              // Split the event into its fields
+              const fields = event.split('\n');
+              let eventType = '';
+              let eventData = '';
+            
+              for (const field of fields) {
+                if (field.startsWith('event: ')) {
+                  eventType = field.substring(7);
+                } else if (field.startsWith('data: ')) {
+                  eventData = field.substring(6);
+                }
+
+                 // Only process 'data' events
+                if (eventType === 'data\r') {
+                  // Parse the JSON string
+                  try {
+                    const data = JSON.parse(eventData);
+                    console.log("Parsed data:", data);
+              
+                    // Concatenate the "content" to the text
+                    text += data.content;
+                  } catch (error) {
+                    console.error("Error parsing JSON:", error);
+                  }
+                }
+              }
+            }
+
             if (isFirst) {
               isFirst = false;
               const updatedMessages: Message[] = [
