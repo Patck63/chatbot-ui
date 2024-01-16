@@ -445,21 +445,27 @@ export const Chat = memo(({ stopConversationRef }: Props) => {
             {selectedConversation?.messages.length === 0 ? (
               <>
                 <div className="mx-auto flex flex-col space-y-5 md:space-y-10 px-3 pt-5 md:pt-12 sm:max-w-[600px]">
-                  <div className="text-center text-3xl font-semibold text-gray-800 dark:text-gray-100">
+                  <div className="text-center text-2xl font-semibold text-gray-800 dark:text-gray-100" style={{ fontFamily: 'Arial' }}>
+                    <div className="text-center">
+                      <Image src={logo} alt="Logo" className="mx-auto"/>
+                    </div>
                     {models.length === 0 ? (
                       <div>
                         <Spinner size="16px" className="mx-auto" />
                       </div>
                     ) : (
-                      'HipSengGPT'
+                      <div className='mt-1'>HipSengGPT</div>
                     )}
-                    <button
-                      className="ml-2 cursor-pointer hover:opacity-50"
-                      onClick={handleSettings}
-                    >
-                      <IconSettings size={24} />
-                    </button>
+                    <div className='mt-6'>
+                      <button
+                        className="cursor-pointer hover:opacity-50"
+                        onClick={handleSettings}
+                      >
+                        <IconSettings size={24} />
+                      </button>
+                    </div>
                   </div>
+                  
                   
                   {showSettings && (
                   <div style={{
