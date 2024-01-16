@@ -339,7 +339,7 @@ export const ChatInput = ({
             {messageIsStreaming ? (
               <div className="h-4 w-4 animate-spin rounded-full border-t-2 border-neutral-800 opacity-60 dark:border-neutral-100"></div>
             ) : (
-              <IconSend size={18} />
+              <IconSend size={18} color="#e34a0b"/>
             )}
           </button>
 

@@ -451,9 +451,40 @@ export const Chat = memo(({ stopConversationRef }: Props) => {
                         <Spinner size="16px" className="mx-auto" />
                       </div>
                     ) : (
-                      'Chatbot UI'
+                      'HipSengGPT'
                     )}
+                    <button
+                      className="ml-2 cursor-pointer hover:opacity-50"
+                      onClick={handleSettings}
+                    >
+                      <IconSettings size={24} />
+                    </button>
                   </div>
+                  
+                  {showSettings && (
+                  <div style={{
+                    position: 'fixed', 
+                    zIndex: 1000, 
+                    top: '50%', 
+                    left: '50%', 
+                    transform: 'translate(-50%, -50%)', 
+                    backgroundColor: 'white',
+                    boxShadow: '0px 4px 20px rgba(0, 0, 0, 0.5)',
+                  }} className="flex flex-col space-y-10 md:mx-auto md:max-w-xl md:gap-6 md:py-0 md:pt-0 lg:max-w-2xl lg:px-0 xl:max-w-3xl">
+                    <div className="flex h-full flex-col space-y-4 border-b border-neutral-200 p-4 dark:border-neutral-600 md:rounded-lg md:border">
+                      {/* <ModelSelect /> */}
+                      <TemperatureSlider
+                        label='Temperature'
+                        onChangeTemperature={(temperature) =>
+                          handleUpdateConversation(selectedConversation!, {
+                            key: 'temperature',
+                            value: temperature,
+                          })
+                        }
+                      />
+                    </div>
+                  </div>
+                )}
 
                   {/* {models.length > 0 && (
                     <div className="flex h-full flex-col space-y-4 rounded-lg border border-neutral-200 p-4 dark:border-neutral-600">
@@ -507,7 +538,15 @@ export const Chat = memo(({ stopConversationRef }: Props) => {
                   </div>
                 </div>
                 {showSettings && (
-                  <div className="flex flex-col space-y-10 md:mx-auto md:max-w-xl md:gap-6 md:py-3 md:pt-6 lg:max-w-2xl lg:px-0 xl:max-w-3xl">
+                  <div style={{
+                    position: 'fixed', 
+                    zIndex: 1000, 
+                    top: '50%', 
+                    left: '50%', 
+                    transform: 'translate(-50%, -50%)', 
+                    backgroundColor: 'white',
+                    boxShadow: '0px 4px 20px rgba(0, 0, 0, 0.5)',
+                  }} className="flex flex-col space-y-10 md:mx-auto md:max-w-xl md:gap-6 md:py-0 md:pt-0 lg:max-w-2xl lg:px-0 xl:max-w-3xl">
                     <div className="flex h-full flex-col space-y-4 border-b border-neutral-200 p-4 dark:border-neutral-600 md:rounded-lg md:border">
                       {/* <ModelSelect /> */}
                       <TemperatureSlider
