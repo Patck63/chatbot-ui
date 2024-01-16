@@ -3,6 +3,7 @@ import { IconEraser, IconSettings } from '@tabler/icons-react';
 import {
   MutableRefObject,
   memo,
+  use,
   useCallback,
   useContext,
   useEffect,
@@ -64,6 +65,8 @@ export const Chat = memo(({ stopConversationRef }: Props) => {
   const [showSettings, setShowSettings] = useState<boolean>(false);
   const [showScrollDownButton, setShowScrollDownButton] =
     useState<boolean>(false);
+  const [passcode, setPasscode] = useState('');
+  const [passcodeError, setPasscodeError] = useState(false);
 
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const chatContainerRef = useRef<HTMLDivElement>(null);
@@ -353,6 +356,19 @@ export const Chat = memo(({ stopConversationRef }: Props) => {
   };
   const throttledScrollDown = throttle(scrollDown, 250);
 
+  const handlePasscodeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setPasscode(event.target.value);
+  };
+  
+  const handleSubmitPasscode = () => {
+    if (passcode !== "hip-seng-gpt-testing") {
+      setPasscodeError(true);
+    }else{
+      homeDispatch({ field: 'apiKey', value: passcode });
+      localStorage.setItem('apiKey', passcode);
+    }
+  };
+
   // useEffect(() => {
   //   console.log('currentMessage', currentMessage);
   //   if (currentMessage) {
@@ -360,6 +376,7 @@ export const Chat = memo(({ stopConversationRef }: Props) => {
   //     homeDispatch({ field: 'currentMessage', value: undefined });
   //   }
   // }, [currentMessage]);
+  
 
   useEffect(() => {
     throttledScrollDown();
@@ -393,45 +410,35 @@ export const Chat = memo(({ stopConversationRef }: Props) => {
     };
   }, [messagesEndRef]);
 
+
   return (
     <div className="relative flex-1 overflow-hidden bg-white dark:bg-[#343541]">
       {!(apiKey || serverSideApiKeyIsSet) ? (
         <div className="mx-auto flex h-full w-[300px] flex-col justify-center space-y-6 sm:w-[600px]">
           <div className="text-center text-4xl font-bold text-black dark:text-white">
-            Welcome to Chatbot UI
+            Welcome to HipSengGPT
           </div>
           <div className="text-center text-lg text-black dark:text-white">
-            <div className="mb-8">{`Chatbot UI is an open source clone of OpenAI's ChatGPT UI.`}</div>
-            <div className="mb-2 font-bold">
-              Important: Chatbot UI is 100% unaffiliated with OpenAI.
-            </div>
+            <div className="mb-8">Enter the passcode to start chatting</div>
           </div>
-          <div className="text-center text-gray-500 dark:text-gray-400">
-            <div className="mb-2">
-              Chatbot UI allows you to plug in your API key to use this UI with
-              their API.
+          
+          <input
+            type="password"
+            value={passcode}
+            onChange={handlePasscodeChange}
+            className="border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 text-black"
+          />
+          <button
+            onClick={handleSubmitPasscode}
+            className="bg-[#e34a0b] text-white rounded-md px-4 py-2 mt-4 hover:bg-[#c20017] focus:outline-none focus:bg-[#fv4f17]"
+            >
+            Submit
+          </button>
+          { passcodeError ? (
+            <div className="text-center text-sm text-red-500">
+              <div>Passcode is incorrect</div>
             </div>
-            <div className="mb-2">
-              It is <span className="italic">only</span> used to communicate
-              with their API.
-            </div>
-            <div className="mb-2">
-              {
-                'Please set your OpenAI API key in the bottom left of the sidebar.'
-              }
-            </div>
-            <div>
-              {"If you don't have an OpenAI API key, you can get one here: "}
-              <a
-                href="https://platform.openai.com/account/api-keys"
-                target="_blank"
-                rel="noreferrer"
-                className="text-blue-500 hover:underline"
-              >
-                openai.com
-              </a>
-            </div>
-          </div>
+          ) : null }
         </div>
       ) : modelError ? (
         <ErrorMessageDiv error={modelError} />
