@@ -277,7 +277,7 @@ export const ChatInput = ({
           )}
 
         <div className="relative mx-2 flex w-full flex-grow flex-col rounded-md border border-black/10 bg-white shadow-[0_0_10px_rgba(0,0,0,0.10)] dark:border-gray-900/50 dark:bg-[#40414F] dark:text-white dark:shadow-[0_0_15px_rgba(0,0,0,0.10)] sm:mx-4">
-          <button
+          {/* <button
             className="absolute left-2 top-2 rounded-sm p-1 text-neutral-800 opacity-60 hover:bg-neutral-200 hover:text-neutral-900 dark:bg-opacity-50 dark:text-neutral-100 dark:hover:text-neutral-200"
             onClick={() => setShowPluginSelect(!showPluginSelect)}
             onKeyDown={(e) => {}}
@@ -306,7 +306,7 @@ export const ChatInput = ({
                 }}
               />
             </div>
-          )}
+          )} */}
 
           <textarea
             ref={textareaRef}
@@ -376,18 +376,14 @@ export const ChatInput = ({
           )}
         </div>
       </div>
-      <div className="px-3 pt-2 pb-3 text-center text-[12px] text-black/50 dark:text-white/50 md:px-4 md:pt-3 md:pb-6">
-        <a
-          href="https://github.com/mckaywrigley/chatbot-ui"
-          target="_blank"
-          rel="noreferrer"
-          className="underline"
-        >
-          ChatBot UI
-        </a>
-        .{' '}
+      <div className="px-3 pt-2 text-center text-[12px] text-black/50 dark:text-white/50 md:px-4 md:pt-3">
         {
-          "Chatbot UI is an advanced chatbot kit for OpenAI's chat models aiming to mimic ChatGPT's interface and functionality."
+          "Warning: This chat application uses a large language model (LLM) that may generate inaccurate or misleading information."
+        }
+      </div>
+      <div className="px-3 pb-3 text-center text-[12px] text-black/50 dark:text-white/50 md:px-4 md:pb-6">
+        {
+          "Please use the information provided with caution and verify it with other sources before making any decisions based on it."
         }
       </div>
     </div>
