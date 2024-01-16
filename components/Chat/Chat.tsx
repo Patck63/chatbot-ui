@@ -376,6 +376,19 @@ export const Chat = memo(({ stopConversationRef }: Props) => {
   //     homeDispatch({ field: 'currentMessage', value: undefined });
   //   }
   // }, [currentMessage]);
+
+  useEffect(() => {
+    window.addEventListener("unload", function (e) {
+      localStorage.removeItem('apiKey');
+      localStorage.removeItem('selectedConversation');
+      localStorage.removeItem('conversationHistory');
+    });
+    return () => {
+      window.removeEventListener("unload", function (e) {
+      });
+    };
+  }, []);
+  
   
 
   useEffect(() => {
