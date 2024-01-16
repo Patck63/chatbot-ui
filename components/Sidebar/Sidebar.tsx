@@ -111,11 +111,11 @@ const Sidebar = <T,>({
         {footerComponent}
       </div>
 
-      {/* <CloseSidebarButton onClick={toggleOpen} side={side} /> */}
+      <CloseSidebarButton onClick={toggleOpen} side={side} />
     </div>
   ) : (
-    // <OpenSidebarButton onClick={toggleOpen} side={side} />
-    <div></div>
+    <OpenSidebarButton onClick={toggleOpen} side={side} />
+    // <div></div>
   );
 };
 
