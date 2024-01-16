@@ -1,4 +1,5 @@
-import { IconClearAll, IconSettings } from '@tabler/icons-react';
+
+import { IconEraser, IconSettings } from '@tabler/icons-react';
 import {
   MutableRefObject,
   memo,
@@ -9,7 +10,6 @@ import {
   useState,
 } from 'react';
 import toast from 'react-hot-toast';
-
 
 import { getEndpoint } from '@/utils/app/api';
 import {
@@ -32,6 +32,9 @@ import { ModelSelect } from './ModelSelect';
 import { SystemPrompt } from './SystemPrompt';
 import { TemperatureSlider } from './Temperature';
 import { MemoizedChatMessage } from './MemoizedChatMessage';
+
+import Image from 'next/image';
+import logo from '/public/images/logo.png';
 
 interface Props {
   stopConversationRef: MutableRefObject<boolean>;
@@ -482,21 +485,26 @@ export const Chat = memo(({ stopConversationRef }: Props) => {
               </>
             ) : (
               <>
-                <div className="sticky top-0 z-10 flex justify-center border border-b-neutral-300 bg-neutral-100 py-2 text-sm text-neutral-500 dark:border-none dark:bg-[#444654] dark:text-neutral-200">
-                  {'Model'}: {selectedConversation?.model.name} | {'Temp'}
-                  : {selectedConversation?.temperature} |
+                <div className="sticky top-0 z-10 flex justify-between items-center border border-b-neutral-300 bg-neutral-100 py-2 text-sm text-neutral-500 dark:border-none dark:bg-[#444654] dark:text-neutral-200">
                   <button
                     className="ml-2 cursor-pointer hover:opacity-50"
                     onClick={handleSettings}
                   >
-                    <IconSettings size={18} />
+                    <IconSettings size={24} />
                   </button>
-                  <button
-                    className="ml-2 cursor-pointer hover:opacity-50"
-                    onClick={onClearAll}
-                  >
-                    <IconClearAll size={18} />
-                  </button>
+                  <div className="flex-grow text-center">
+                    <Image src={logo} alt="Logo" className="mx-auto"/>
+                  </div>
+                  <div className="flex items-center">
+                    {/* {'Model'}: {selectedConversation?.model.name} | {'Temp'}
+                    : {selectedConversation?.temperature} | */}
+                    <button
+                      className="mr-2 cursor-pointer hover:opacity-50"
+                      onClick={onClearAll}
+                    >
+                      <IconEraser size={24} />
+                    </button>
+                  </div>
                 </div>
                 {showSettings && (
                   <div className="flex flex-col space-y-10 md:mx-auto md:max-w-xl md:gap-6 md:py-3 md:pt-6 lg:max-w-2xl lg:px-0 xl:max-w-3xl">
