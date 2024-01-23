@@ -196,25 +196,30 @@ export const Chat = memo(({ stopConversationRef }: Props) => {
             for (const event of events) {
               // Split the event into its fields
               const fields = event.split('\n');
+              // console.log("fields", fields)
               let eventType = '';
               let eventData = '';
             
               for (const field of fields) {
                 if (field.startsWith('event: ')) {
                   eventType = field.substring(7);
+                  // console.log("eventType", eventType)
                 } else if (field.startsWith('data: ')) {
-                  eventData = field.substring(6);
+                  eventData = field.substring(6).trim()
+                  // console.log("eventData", eventData)
                 }
 
                  // Only process 'data' events
                 if (eventType === 'data\r') {
                   // Parse the JSON string
                   try {
-                    const data = JSON.parse(eventData);
-                    console.log("Parsed data:", data);
-              
-                    // Concatenate the "content" to the text
-                    text += data.content;
+                    if (eventData !== '') {
+                      const data = JSON.parse(eventData);
+                      // console.log("Parsed data:", data);
+                
+                      // Concatenate the "content" to the text
+                      text += data.content;
+                    }
                   } catch (error) {
                     console.error("Error parsing JSON:", error);
                   }
