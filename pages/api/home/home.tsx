@@ -50,8 +50,8 @@ const Home = ({
   serverSidePluginKeysSet,
   defaultModelId,
 }: Props) => {
-  const { getModels } = useApiService();
-  const { getModelsError } = useErrorService();
+  // const { getModels } = useApiService();
+  // const { getModelsError } = useErrorService();
   const [initialRender, setInitialRender] = useState<boolean>(true);
 
   const contextValue = useCreateReducer<HomeInitialState>({
@@ -74,20 +74,20 @@ const Home = ({
 
   const stopConversationRef = useRef<boolean>(false);
 
-  const { data, error, refetch } = useQuery(
-    ['GetModels', apiKey, serverSideApiKeyIsSet],
-    ({ signal }) => {
-      if (!apiKey && !serverSideApiKeyIsSet) return null;
+  // const { data, error, refetch } = useQuery(
+  //   ['GetModels', apiKey, serverSideApiKeyIsSet],
+  //   ({ signal }) => {
+  //     if (!apiKey && !serverSideApiKeyIsSet) return null;
 
-      return getModels(
-        {
-          key: apiKey,
-        },
-        signal,
-      );
-    },
-    { enabled: true, refetchOnMount: false },
-  );
+  //     return getModels(
+  //       {
+  //         key: apiKey,
+  //       },
+  //       signal,
+  //     );
+  //   },
+  //   { enabled: true, refetchOnMount: false },
+  // );
 
   // useEffect(() => {
   //   if (data) dispatch({ field: 'models', value: data });
