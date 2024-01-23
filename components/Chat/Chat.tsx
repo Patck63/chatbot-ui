@@ -111,9 +111,20 @@ export const Chat = memo(({ stopConversationRef }: Props) => {
           // body = JSON.stringify(chatBody);
           body = JSON.stringify({
             input: {
-              input: updatedConversation.messages[updatedConversation.messages.length - 1].content,
+              messages: [
+                {
+                    content: updatedConversation.messages[updatedConversation.messages.length - 1].content,
+                    additional_kwargs: {},
+                    type: "human",
+                    example: false
+                }
+            ]
             },
-            config: {},
+            config: {
+              configurable: {
+                session_id: "test_session_6"
+            }
+            },
             kwargs: {}
           })
         } else {
@@ -128,7 +139,7 @@ export const Chat = memo(({ stopConversationRef }: Props) => {
           });
         }
         const controller = new AbortController();
-
+        
         const response = await fetch(endpoint, {
           method: 'POST',
           headers: {

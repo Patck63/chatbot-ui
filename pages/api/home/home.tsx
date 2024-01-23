@@ -227,7 +227,6 @@ const Home = ({
     conversation: Conversation,
     data: KeyValuePair,
   ) => {
-    console.log("handleUpdateConversation");
     const updatedConversation = {
       ...conversation,
       [data.key]: data.value,
